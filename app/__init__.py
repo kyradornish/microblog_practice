@@ -9,8 +9,9 @@ import os
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from config import Config
+from flask_babel import Babel, lazy_gettext as _l
 from elasticsearch import Elasticsearch
+from config import Config
 
 
 db = SQLAlchemy()
@@ -20,6 +21,7 @@ login.login_view = 'auth.login'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
+babel = Babel()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -31,6 +33,7 @@ def create_app(config_class=Config):
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
+    babel.init_app(app)
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
 
